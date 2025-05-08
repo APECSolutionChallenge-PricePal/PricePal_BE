@@ -2,6 +2,7 @@ package com.pricepal.backend.service.TempService;
 
 import com.pricepal.backend.apiPayload.ApiResponse;
 import com.pricepal.backend.web.dto.TempRequest;
+import io.github.cdimascio.dotenv.Dotenv;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,15 @@ public class TempQueryServiceImpl implements TempQueryService {
 //    }
 
     private final WebClient webClient;
+    private final Dotenv dotenv = Dotenv.load();
+    private final String geminiApiKey = dotenv.get("GEMINI_API_KEY");
+
 
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
 
-    @Value("${gemini.api.key}")
-    private String geminiApiKey;
+//    @Value("${gemini.api.key}")
+//    private String geminiApiKey;
 
     public ApiResponse<String> getGeminiGuide(TempRequest request) {
         String prompt = generatePrompt(request.getItemName(), request.getCountry());
