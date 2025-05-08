@@ -33,3 +33,8 @@ management:
       show-details: always
 
 external:
+
+gemini:
+  api:
+    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+    key: "AIzaSyDLGTr_XppysQfaForSVkvLhyTEzRtFFgg"  # 실제 Gemini API 키로 변경
