@@ -1,7 +1,9 @@
 package com.pricepal.backend.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record BargainingTip(
         String romanization,  // 비라틴 스크립트일 때만 값

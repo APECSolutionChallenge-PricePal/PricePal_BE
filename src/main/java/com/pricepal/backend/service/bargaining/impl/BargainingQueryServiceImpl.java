@@ -2,6 +2,7 @@ package com.pricepal.backend.service.bargaining.impl;
 
 import com.pricepal.backend.web.dto.BargainingResponse;
 import com.pricepal.backend.service.bargaining.BargainingQueryService;
+import com.pricepal.backend.web.dto.BargainingTip;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -35,7 +36,7 @@ public class BargainingQueryServiceImpl implements BargainingQueryService {
 
     @Override
     public BargainingResponse getBargainingTips(String travelCountry) {
-        // 1) 프롬프트 생성
+
         String prompt = """
         You are a travel bargaining assistant. 
         Given a country name, return a JSON object with two keys: "tips" and "summary".
@@ -102,7 +103,6 @@ public class BargainingQueryServiceImpl implements BargainingQueryService {
                 .block();
 
 
-        // 4) 응답 파싱: candidates → content → parts → text
         JSONObject root = new JSONObject(raw);
         String inner = root
                 .getJSONArray("candidates")
@@ -112,16 +112,34 @@ public class BargainingQueryServiceImpl implements BargainingQueryService {
                 .getJSONObject(0)
                 .getString("text");
 
+        if (inner.startsWith("```")) {
+            inner = inner.replaceAll("(?s)```json\\s*(\\{.*?\\})\\s*```", "$1").trim();
+        }
+
         JSONObject data = new JSONObject(inner);
         JSONArray tipsArr = data.getJSONArray("tips");
-        List<String> tips = new ArrayList<>();
+        List<BargainingTip> tips = new ArrayList<>();
+
         for (int i = 0; i < tipsArr.length(); i++) {
             JSONObject tip = tipsArr.getJSONObject(i);
-            tips.add(tip.has("local") ? tip.toString() : tip.getString("english"));
+
+            BargainingTip.BargainingTipBuilder tipBuilder = BargainingTip.builder();
+
+            if (tip.has("english")) {
+                tipBuilder.english(tip.getString("english"));
+            }
+            if (tip.has("local")) {
+                tipBuilder.local(tip.getString("local"));
+            }
+            if (tip.has("romanization")) {
+                tipBuilder.romanization(tip.getString("romanization"));
+            }
+
+            tips.add(tipBuilder.build());
         }
+
         String summary = data.getString("summary");
 
-        // 5) DTO 반환
         return BargainingResponse.builder()
                 .tips(tips)
                 .summary(summary)
