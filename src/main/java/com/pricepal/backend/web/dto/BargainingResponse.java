@@ -10,6 +10,6 @@ import java.util.List;
 @ToString
 @Builder
 public class BargainingResponse {
-    private final List<String> tips;
+    private final List<BargainingTip> tips;  // ✅ 객체로 바꿈
     private final String summary;
 }
