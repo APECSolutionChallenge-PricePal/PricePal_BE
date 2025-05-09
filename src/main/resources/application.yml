@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.pricepal.backend: DEBUG
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: servlet
+
+# CORS 설정
+cors:
+  allowed-origin-patterns: "*"
+  allow-credentials: true
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allowed-headers: "*"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+external:
+
+gemini:
+  api:
+    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+    #key: ${GEMINI_API_KEY}  # 실제 Gemini API 키로 변경

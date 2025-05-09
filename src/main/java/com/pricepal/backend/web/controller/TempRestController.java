@@ -3,13 +3,10 @@ package com.pricepal.backend.web.controller;
 import com.pricepal.backend.apiPayload.ApiResponse;
 import com.pricepal.backend.converter.TempConverter;
 import com.pricepal.backend.service.TempService.TempQueryService;
+import com.pricepal.backend.web.dto.TempRequest;
 import com.pricepal.backend.web.dto.TempResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/temp")
@@ -19,15 +16,21 @@ public class TempRestController {
     public TempRestController(@Qualifier("tempQueryServiceImpl") TempQueryService tempQueryService) {
         this.tempQueryService = tempQueryService;
     }
-    @GetMapping("/test")
-    public ApiResponse<TempResponse.TempTestDTO> testAPI(){
 
-        return ApiResponse.onSuccess(TempConverter.toTempTestDTO());
+    @PostMapping("/guide")
+    public ApiResponse<String> getGeminiGuide(@RequestBody TempRequest request) {
+        return tempQueryService.getGeminiGuide(request);
     }
 
-    @GetMapping("/exception")
-    public ApiResponse<TempResponse.TempExceptionDTO> exceptionAPI(@RequestParam Integer flag){
-        tempQueryService.CheckFlag(flag);
-        return ApiResponse.onSuccess(TempConverter.toTempExceptionDTO(flag));
-    }
+//    @GetMapping("/test")
+//    public ApiResponse<TempResponse.TempTestDTO> testAPI(){
+//
+//        return ApiResponse.onSuccess(TempConverter.toTempTestDTO());
+//    }
+
+//    @GetMapping("/exception")
+//    public ApiResponse<TempResponse.TempExceptionDTO> exceptionAPI(@RequestParam Integer flag){
+//        tempQueryService.CheckFlag(flag);
+//        return ApiResponse.onSuccess(TempConverter.toTempExceptionDTO(flag));
+//    }
 }
