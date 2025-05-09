@@ -4,5 +4,5 @@ import com.pricepal.backend.web.dto.PriceDto;
 import java.util.List;
 
 public interface PriceQueryService {
-    List<PriceDto> getPriceList(String country);
+    List<PriceDto> getPriceList(String userCountry, String travelCountry);
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @ToString
-@Builder  // ← 이 한 줄을 추가!
+@Builder
 public class BargainingResponse {
     private final List<String> tips;
     private final String summary;
