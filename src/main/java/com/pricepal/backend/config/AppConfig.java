@@ -10,4 +10,5 @@ public class AppConfig {
     @Bean
     public WebClient webClient() {
         return WebClient.builder().build();
-    }}
+    }
+}
