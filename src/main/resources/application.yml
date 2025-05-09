@@ -39,3 +39,8 @@ gemini:
 
 unsplash:
   access-key: eBNrw3HlHta-vMFlXtEGJGmLeyOGJq_ypbJK-rsaaj0
+
+exchange:
+  api:
+    url: https://v6.exchangerate-api.com/v6
+    key: eba85da9b502ab8e669e6f7d
