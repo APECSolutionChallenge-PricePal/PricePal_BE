@@ -46,3 +46,11 @@ external:
   api:
     url: "http://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2"
     key: "WCwXdDTnj5Fm2%2BBNXl8blFfMTTD4bwVCqx6Rp6SzaAEiR4wUgmA0Oy%2F4Jc%2BFCqrZcQHcLNKgT0SOr2OmRV%2Bu7A%3D%3D"
+
+unsplash:
+  access-key: eBNrw3HlHta-vMFlXtEGJGmLeyOGJq_ypbJK-rsaaj0
+
+exchange:
+  api:
+    url: https://v6.exchangerate-api.com/v6
+    key: eba85da9b502ab8e669e6f7d
