@@ -10,6 +10,12 @@ spring:
   main:
     allow-bean-definition-overriding: true
     web-application-type: servlet
+  profiles:
+    active: dev
+    config:
+      activate:
+        on-profile: default
+      import: optional:classpath:.env
 
 # CORS 설정
 cors:
@@ -36,6 +42,10 @@ gemini:
   api:
     url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
     key: ${GEMINI_API_KEY}
+external:
+  api:
+    url: "http://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2"
+    key: "WCwXdDTnj5Fm2%2BBNXl8blFfMTTD4bwVCqx6Rp6SzaAEiR4wUgmA0Oy%2F4Jc%2BFCqrZcQHcLNKgT0SOr2OmRV%2Bu7A%3D%3D"
 
 unsplash:
   access-key: eBNrw3HlHta-vMFlXtEGJGmLeyOGJq_ypbJK-rsaaj0
