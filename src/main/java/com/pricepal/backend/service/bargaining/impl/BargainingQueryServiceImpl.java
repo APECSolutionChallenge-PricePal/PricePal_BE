@@ -2,6 +2,7 @@ package com.pricepal.backend.service.bargaining.impl;
 
 import com.pricepal.backend.web.dto.BargainingResponse;
 import com.pricepal.backend.service.bargaining.BargainingQueryService;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
