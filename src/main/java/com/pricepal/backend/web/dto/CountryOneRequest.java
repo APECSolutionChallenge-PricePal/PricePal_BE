@@ -1,10 +1,11 @@
 package com.pricepal.backend.web.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-public class TempRequest {
-    private String itemName;
+public class CountryOneRequest {
     private String country;
+
 }
