@@ -14,6 +14,11 @@ public class BargainingController {
 
     private final BargainingQueryService bargainingService;
 
+    @GetMapping
+    public String test() {
+        return "서버 잘 돌아가는 중!";
+    }
+
     @PostMapping
     public ApiResponse<BargainingResponse> tips(@RequestBody BargainingRequest request) {
         return ApiResponse.onSuccess(
