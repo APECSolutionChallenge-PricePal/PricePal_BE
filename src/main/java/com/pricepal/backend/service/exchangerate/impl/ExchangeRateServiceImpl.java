@@ -35,7 +35,10 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
                 .block();
 
         JSONObject json = new JSONObject(response);
-        return json.get("conversion_rate").toString();
+        double rate = json.getDouble("conversion_rate");
+
+        // 👉 여기서 포맷팅
+        return String.format("1 %s = %.6f %s", base, rate, target);
     }
 }
 
