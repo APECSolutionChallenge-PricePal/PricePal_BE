@@ -40,14 +40,15 @@ public class CountryPriceCodeService {
                 .getJSONObject("content")
                 .getJSONArray("parts")
                 .getJSONObject(0)
-                .getString("text");
+                .getString("text")
+                .trim();
         return guideText;
     }
     private String generateTaxiPrompt(String country) {
         return String.format(
                 "You are an assistant that provides currency code information. Please provide the currency code for the country %s. \n" +
                         "Format the response strictly as follows:\n\n" +
-                        "(currency code only) ",
+                        "(currency code only)",
                 country
         );
     }
