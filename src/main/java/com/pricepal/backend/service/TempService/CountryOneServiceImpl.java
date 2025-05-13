@@ -49,11 +49,11 @@ public class CountryOneServiceImpl implements CountryOneService {
             JSONObject item = items.getJSONObject(i);
             String countryEngNm = item.optString("country_eng_nm", "");
             String downloadUrl = item.optString("download_url", "");
-            String countryPriceCode = countryPriceCodeService.getGeminiPriceCode(countryEngNm);
+            //String countryPriceCode = countryPriceCodeService.getGeminiPriceCode(countryEngNm);
             result.add(Map.of(
                     "country_eng_nm", countryEngNm,
-                    "download_url", downloadUrl,
-                    "country_price_code",countryPriceCode
+                    "download_url", downloadUrl
+                    //"country_price_code",countryPriceCode
             ));
         }
 
