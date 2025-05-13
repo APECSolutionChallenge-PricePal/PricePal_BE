@@ -17,6 +17,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CountryServiceImpl implements CountryService {
     private final WebClient webClient;
+
+    private final CountryPriceCodeService countryPriceCodeService;
     @Value("${external.api.key}")
     private String serviceKey;
 
@@ -47,10 +49,12 @@ public class CountryServiceImpl implements CountryService {
             String countryEngNm = item.optString("country_eng_nm", "");
             String downloadUrl = item.optString("download_url", "");
             String countryIsoAlp2 = item.optString("country_iso_alp2", "");
+            //String countryPriceCode = countryPriceCodeService.getGeminiPriceCode(countryEngNm);
             result.add(Map.of(
                     "country_eng_nm", countryEngNm,
                     "download_url", downloadUrl,
                     "country_iso_alp2",countryIsoAlp2
+                    //"country_price_code",countryPriceCode
             ));
         }
 
