@@ -55,3 +55,8 @@ exchange:
   api:
     url: https://v6.exchangerate-api.com/v6
     key: eba85da9b502ab8e669e6f7d
+
+timezone:
+  api:
+    key: BP9CIRD43Q8I
+    url: https://api.timezonedb.com
