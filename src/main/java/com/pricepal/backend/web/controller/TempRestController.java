@@ -8,6 +8,8 @@ import com.pricepal.backend.web.dto.TempResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/temp")
 //@RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class TempRestController {
     }
 
     @PostMapping("/guide")
-    public ApiResponse<String> getGeminiGuide(@RequestBody TempRequest request) {
+    public ApiResponse<List<TempResponse>> getGeminiGuide(@RequestBody TempRequest request) {
         return tempQueryService.getGeminiGuide(request);
     }
 

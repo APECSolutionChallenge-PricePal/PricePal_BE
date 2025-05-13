@@ -1,13 +1,18 @@
 package com.pricepal.backend.service.TempService;
 
 import com.pricepal.backend.apiPayload.ApiResponse;
+import com.pricepal.backend.service.item.UnsplashService;
 import com.pricepal.backend.web.dto.TempRequest;
+import com.pricepal.backend.web.dto.TempResponse;
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +24,7 @@ public class TempQueryServiceImpl implements TempQueryService {
 //    }
 
     private final WebClient webClient;
+    private final UnsplashService unsplashService;
     private final Dotenv dotenv = Dotenv.load();
     private final String geminiApiKey = dotenv.get("GEMINI_API_KEY");
 
@@ -29,7 +35,7 @@ public class TempQueryServiceImpl implements TempQueryService {
 //    @Value("${gemini.api.key}")
 //    private String geminiApiKey;
 
-    public ApiResponse<String> getGeminiGuide(TempRequest request) {
+    public ApiResponse<List<TempResponse>> getGeminiGuide(TempRequest request) {
         String prompt = generatePrompt(request.getItemName(), request.getCountry());
 
         String guide = webClient.post()
@@ -64,7 +70,15 @@ public class TempQueryServiceImpl implements TempQueryService {
                 .getJSONObject(0)
                 .getString("text");
 
-        return ApiResponse.onSuccess(guideText);
+        List<TempResponse> results = new ArrayList<>();
+        String imageUrl = unsplashService.fetchImageUrl(request.getItemName());
+
+        results.add(TempResponse.builder()
+                .priceText(guideText)
+                .image(imageUrl)
+                .build());
+
+        return ApiResponse.onSuccess(results);
     }
 
     // ✅ 동적으로 프롬프트 생성

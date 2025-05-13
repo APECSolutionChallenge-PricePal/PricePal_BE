@@ -27,6 +27,6 @@ public class TempResponse {
 //    }
 
 
-    String status;
-    String guide;
+    String priceText;
+    String image;
 }
