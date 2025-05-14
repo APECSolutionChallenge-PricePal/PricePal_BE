@@ -2,6 +2,7 @@ package com.pricepal.backend.service.TempService;
 
 import com.pricepal.backend.apiPayload.ApiResponse;
 import com.pricepal.backend.web.dto.CountryOneRequest;
+import com.pricepal.backend.web.dto.CountryOneResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,11 +19,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CountryOneServiceImpl implements CountryOneService {
     private final WebClient webClient;
+    private final CountryPriceCodeService countryPriceCodeService;
     @Value("${external.api.key}")
     private String serviceKey;
 
     @Override
-    public ApiResponse<String> getCountryOneFlags(CountryOneRequest request) {
+    public ApiResponse<List<CountryOneResponse>> getCountryOneFlags(CountryOneRequest request) {
         Map<String, Object> test = new HashMap<String, Object>();
         test.put("serviceKey", serviceKey);
         test.put("pageNo", 1);
@@ -43,17 +45,21 @@ public class CountryOneServiceImpl implements CountryOneService {
                 .getJSONObject("items")
                 .getJSONArray("item");
 
-        List<Map<String, String>> result = new ArrayList<>();
+        List<CountryOneResponse> result = new ArrayList<>();
         for (int i = 0; i < items.length(); i++) {
             JSONObject item = items.getJSONObject(i);
             String countryEngNm = item.optString("country_eng_nm", "");
             String downloadUrl = item.optString("download_url", "");
-            result.add(Map.of(
-                    "country_eng_nm", countryEngNm,
-                    "download_url", downloadUrl
-            ));
+            String countryIsoAlp2 = item.optString("country_iso_alp2", "");
+            //String countryPriceCode = countryPriceCodeService.getGeminiPriceCode(countryEngNm);
+            result.add(CountryOneResponse.builder()
+                            .countryEngNm(countryEngNm)
+                            .downloadUrl(downloadUrl)
+                            .countryIsoAlp2(countryIsoAlp2)
+                            .build()
+                    );
         }
 
-        return ApiResponse.onSuccess(result.toString());
+        return ApiResponse.onSuccess(result);
     }
 }

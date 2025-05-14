@@ -1,5 +1,6 @@
 package com.pricepal.backend.service.exchangerate.impl;
 
+import com.pricepal.backend.service.TempService.CountryPriceCodeService;
 import com.pricepal.backend.service.exchangerate.ExchangeRateService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -18,16 +19,20 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     private String apiKey;
 
     private final WebClient webClient;
+    private final CountryPriceCodeService countryPriceCodeService;
 
     @Override
     public String getRate(String base, String target) {
-        String uri = String.format("%s/pair/%s/%s", apiUrl, base, target);  // e.g. https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/KRW/USD
+        String baseCode = countryPriceCodeService.getGeminiPriceCode(base);
+        String targetCode = countryPriceCodeService.getGeminiPriceCode(target);
+
+        String uri = String.format("%s/pair/%s/%s", apiUrl, baseCode, targetCode);  // e.g. https://v6.exchangerate-api.com/v6/YOUR_API_KEY/pair/KRW/USD
 
         String response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .scheme("https")
                         .host("v6.exchangerate-api.com")
-                        .path("/v6/" + apiKey + "/pair/" + base + "/" + target)
+                        .path("/v6/" + apiKey + "/pair/" + baseCode + "/" + targetCode)
                         .build()
                 )
                 .retrieve()
