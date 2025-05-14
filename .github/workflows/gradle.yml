@@ -41,7 +41,7 @@ jobs:
          
     ## 서버에 접속하여 도커 이미지를 pull 받고 실행하기
     - name: Deploy to server
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
         username: ubuntu
