@@ -1,6 +1,7 @@
 package com.pricepal.backend.service.TempService;
 
 import com.pricepal.backend.apiPayload.ApiResponse;
+import com.pricepal.backend.web.dto.CountryOneResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,7 +24,7 @@ public class CountryServiceImpl implements CountryService {
     private String serviceKey;
 
     @Override
-    public ApiResponse<String> getCountryFlags() {
+    public ApiResponse<List<CountryOneResponse>> getCountryFlags() {
         Map<String, Object> test = new HashMap<String, Object>();
         test.put("serviceKey", serviceKey);
         test.put("pageNo", 1);
@@ -43,22 +44,22 @@ public class CountryServiceImpl implements CountryService {
                 .getJSONObject("items")
                 .getJSONArray("item");
 
-        List<Map<String, String>> result = new ArrayList<>();
+        List<CountryOneResponse> result = new ArrayList<>();
         for (int i = 0; i < items.length(); i++) {
             JSONObject item = items.getJSONObject(i);
             String countryEngNm = item.optString("country_eng_nm", "");
             String downloadUrl = item.optString("download_url", "");
             String countryIsoAlp2 = item.optString("country_iso_alp2", "");
             //String countryPriceCode = countryPriceCodeService.getGeminiPriceCode(countryEngNm);
-            result.add(Map.of(
-                    "country_eng_nm", countryEngNm,
-                    "download_url", downloadUrl,
-                    "country_iso_alp2",countryIsoAlp2
-                    //"country_price_code",countryPriceCode
-            ));
+            result.add(CountryOneResponse.builder()
+                    .countryEngNm(countryEngNm)
+                    .downloadUrl(downloadUrl)
+                    .countryIsoAlp2(countryIsoAlp2)
+                    .build()
+            );
         }
 
-        return ApiResponse.onSuccess(result.toString());
+        return ApiResponse.onSuccess(result);
     }
 }
 
