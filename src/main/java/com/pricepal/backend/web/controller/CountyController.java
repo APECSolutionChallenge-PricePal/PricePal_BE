@@ -7,10 +7,7 @@ import com.pricepal.backend.web.dto.CountryOneRequest;
 import com.pricepal.backend.web.dto.CountryOneResponse;
 import com.pricepal.backend.web.dto.TempTaxiRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,7 +28,9 @@ public class CountyController {
     }
 
     @GetMapping("/one")
-    public ApiResponse<List<CountryOneResponse>> getCountryOneFlags(@RequestBody CountryOneRequest request) {
+    public ApiResponse<List<CountryOneResponse>> getCountryOneFlags(@RequestParam String country) {
+        CountryOneRequest request = new CountryOneRequest();
+        request.setCountry(country);
         return countryOneService.getCountryOneFlags(request);
     }
 

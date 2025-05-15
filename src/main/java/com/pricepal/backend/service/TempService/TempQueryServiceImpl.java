@@ -17,23 +17,18 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TempQueryServiceImpl implements TempQueryService {
-//    @Override
-//    public void CheckFlag(Integer flag) {
-//        if (flag == 1)
-//            throw new TempHandler(ErrorStatus.TEMP_EXCEPTION);
-//    }
 
     private final WebClient webClient;
     private final UnsplashService unsplashService;
-    private final Dotenv dotenv = Dotenv.load();
-    private final String geminiApiKey = dotenv.get("GEMINI_API_KEY");
+//    private final Dotenv dotenv = Dotenv.load();
+//    private final String geminiApiKey = dotenv.get("GEMINI_API_KEY");
 
 
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
 
-//    @Value("${gemini.api.key}")
-//    private String geminiApiKey;
+    @Value("${gemini.api.key}")
+    private String geminiApiKey;
 
     public ApiResponse<List<TempResponse>> getGeminiGuide(TempRequest request) {
         String prompt = generatePrompt(request.getItemName(), request.getCountry());

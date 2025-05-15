@@ -13,15 +13,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class TempTaxiServiceImpl implements TempTaxiService {
     private final WebClient webClient;
-    private final Dotenv dotenv = Dotenv.load();
-    //private final String geminiApiUrl = dotenv.get("GEMINI_API_URL");
-    private final String geminiApiKey = dotenv.get("GEMINI_API_KEY");
+//    private final Dotenv dotenv = Dotenv.load();
+//    private final String geminiApiKey = dotenv.get("GEMINI_API_KEY");
 
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
 
-//    @Value("${gemini.api.key}")
-//    private String geminiApiKey;
+    @Value("${gemini.api.key}")
+    private String geminiApiKey;
 
     public ApiResponse<String> getGeminiTaxiFare(TempTaxiRequest request) {
         String prompt = generateTaxiPrompt(request.getDistance(), request.getCountry());
