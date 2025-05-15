@@ -18,32 +18,39 @@ public class CountryPriceCodeService {
     private String geminiApiKey;
     
     public String getGeminiPriceCode(String query) {
-        String prompt = generateTaxiPrompt(query);
-        String rawResponse = webClient.post()
-                .uri(geminiApiUrl + "?key=" + geminiApiKey)
-                .header("Content-Type", "application/json")
-                .bodyValue(new JSONObject()
-                        .put("contents", new JSONObject()
-                                .put("parts", new JSONObject()
-                                        .put("text", prompt)
-                                )
-                        )
-                        .toString())
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+    String prompt = generateTaxiPrompt(query);
 
-        JSONObject responseJson = new JSONObject(rawResponse);
-        String guideText = responseJson
-                .getJSONArray("candidates")
-                .getJSONObject(0)
-                .getJSONObject("content")
-                .getJSONArray("parts")
-                .getJSONObject(0)
-                .getString("text")
-                .trim();
-        return guideText;
-    }
+    JSONObject body = new JSONObject()
+        .put("contents", new org.json.JSONArray()
+            .put(new JSONObject()
+                .put("parts", new org.json.JSONArray()
+                    .put(new JSONObject()
+                        .put("text", prompt)
+                    )
+                )
+            )
+        );
+
+    String rawResponse = webClient.post()
+            .uri(geminiApiUrl + "?key=" + geminiApiKey)
+            .header("Content-Type", "application/json")
+            .bodyValue(body.toString())
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+
+    JSONObject responseJson = new JSONObject(rawResponse);
+    String guideText = responseJson
+            .getJSONArray("candidates")
+            .getJSONObject(0)
+            .getJSONObject("content")
+            .getJSONArray("parts")
+            .getJSONObject(0)
+            .getString("text")
+            .trim();
+    return guideText;
+}
+
     private String generateTaxiPrompt(String country) {
         return String.format(
                 "You are an assistant that provides currency code information. Please provide the currency code for the country %s. \n" +
