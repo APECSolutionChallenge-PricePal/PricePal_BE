@@ -1,4 +1,5 @@
 FROM openjdk:17
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} PricePal.jar
-ENTRYPOINT ["java","-jar","/PricePal.jar"]
+COPY build/libs/backend-0.0.1-SNAPSHOT.jar PricePal.jar
+COPY .env .env
+ENTRYPOINT ["java", "-jar", "PricePal.jar"]
+
