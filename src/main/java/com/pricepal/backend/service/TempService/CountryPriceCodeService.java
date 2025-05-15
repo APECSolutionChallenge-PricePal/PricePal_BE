@@ -17,6 +17,9 @@ public class CountryPriceCodeService {
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
 
+    @Value("${gemini.api.key}")
+    private String geminiApiKey;
+    
     public String getGeminiPriceCode(String query) {
         String prompt = generateTaxiPrompt(query);
         String rawResponse = webClient.post()
