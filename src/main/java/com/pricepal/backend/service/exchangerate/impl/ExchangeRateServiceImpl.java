@@ -42,7 +42,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         JSONObject json = new JSONObject(response);
         double rate = json.getDouble("conversion_rate");
 
-        return String.format("1 %s = %.6f %s", base, rate, target);
+        return String.format("1 %s = %.6f %s", baseCode, rate, targetCode);
     }
 }
 
