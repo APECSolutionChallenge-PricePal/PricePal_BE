@@ -48,7 +48,13 @@ jobs:
         key: ${{ secrets.KEY }}
         port: 22
         script: |
-          sudo docker rm -f $(docker ps -qa)
-          sudo docker pull ${{ secrets.DOCKER_REPO }}
-          docker-compose up -d
-          docker image prune -f
+            cd ~/PricePal_BE || git clone https://github.com/APECSolutionChallenge-PricePal/PricePal_BE.git && cd PricePal_BE
+
+            echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
+            echo "COUNTRY_API_SERVICE_KEY=${{ secrets.COUNTRY_API_SERVICE_KEY }}" >> .env
+
+            docker stop pricepal-container || true
+            docker rm pricepal-container || true
+            docker pull ${{ secrets.DOCKER_REPO }}
+            docker run -d --restart unless-stopped --env-file .env -p 8080:8080 --name pricepal-container ${{ secrets.DOCKER_REPO }}
+            docker image prune -f
