@@ -42,7 +42,7 @@ management:
 gemini:
   api:
     url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
-    key: ${GEMINI_API_KEY}
+    key: AIzaSyDIyXd--Z62Mwr6qR6AFLvzEJW-tLfa3KQ
 external:
   api:
     url: "http://apis.data.go.kr/1262000/CountryFlagService2/getCountryFlagList2"
