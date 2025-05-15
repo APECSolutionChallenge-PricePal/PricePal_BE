@@ -1,6 +1,5 @@
 package com.pricepal.backend.service.TempService;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class CountryPriceCodeService {
     private final WebClient webClient;
-    private final Dotenv dotenv = Dotenv.load();
-    private final String geminiApiKey = dotenv.get("GEMINI_API_KEY");
 
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
