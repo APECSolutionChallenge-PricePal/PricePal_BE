@@ -3,6 +3,7 @@ package com.pricepal.backend.web.controller;
 import com.pricepal.backend.apiPayload.ApiResponse;
 import com.pricepal.backend.service.TempService.TempTaxiService;
 import com.pricepal.backend.web.dto.TempTaxiRequest;
+import com.pricepal.backend.web.dto.TempTaxiResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class TempTaxiRestController  {
     }
 
     @PostMapping("/taxifare")
-    public ApiResponse<String> getGeminiTaxiFare(
+    public ApiResponse<TempTaxiResponse> getGeminiTaxiFare(
             @RequestBody TempTaxiRequest request) {
         return tempTaxiGeminiService.getGeminiTaxiFare(request);
     }

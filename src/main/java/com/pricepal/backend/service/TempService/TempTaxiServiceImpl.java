@@ -2,6 +2,7 @@ package com.pricepal.backend.service.TempService;
 
 import com.pricepal.backend.apiPayload.ApiResponse;
 import com.pricepal.backend.web.dto.TempTaxiRequest;
+import com.pricepal.backend.web.dto.TempTaxiResponse;
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
@@ -22,7 +23,7 @@ public class TempTaxiServiceImpl implements TempTaxiService {
     @Value("${gemini.api.key}")
     private String geminiApiKey;
 
-    public ApiResponse<String> getGeminiTaxiFare(TempTaxiRequest request) {
+    public ApiResponse<TempTaxiResponse> getGeminiTaxiFare(TempTaxiRequest request) {
         String prompt = generateTaxiPrompt(request.getDistance(), request.getCountry());
 
         String rawResponse = webClient.post()
@@ -48,7 +49,24 @@ public class TempTaxiServiceImpl implements TempTaxiService {
                 .getJSONObject(0)
                 .getString("text");
 
-        return ApiResponse.onSuccess(guideText);
+        String basicFare = "-";
+        String estimatedFare = "-";
+        String[] lines = guideText.split("\n");
+        for (String line : lines) {
+            if (line.startsWith("Basic Taxi Fares:")) {
+                basicFare = line.replace("Basic Taxi Fares: ", "").trim();
+            } else if (line.startsWith("Estimated Fare:")) {
+                estimatedFare = line.replace("Estimated Fare: ", "").trim();
+            }
+        }
+
+        // ✅ TempTaxiResponse 생성
+        TempTaxiResponse taxiResponse = TempTaxiResponse.builder()
+                .basicFare(basicFare)
+                .estimatedFare(estimatedFare)
+                .build();
+
+        return ApiResponse.onSuccess(taxiResponse);
     }
 
     // ✅ 프롬프트 생성 (지정된 형식)
